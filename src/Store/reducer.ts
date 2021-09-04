@@ -1,12 +1,17 @@
 import { EActionTypes } from './actionTypes';
 
-interface ResultEntity {
+export interface ResultEntity {
   emails: string[];
   phones: string[];
-  contactPersons: string[];
-  companyName?: string;
-  averageCapitalization?: string;
-  reputation?: string;
+  contact_persons: string[];
+  company_name: string;
+  average_capitalization: string;
+  reputation: string;
+}
+
+export interface ResultResponse {
+  1?: ResultEntity[];
+  2?: ResultEntity[];
 }
 
 export interface IMainStore {

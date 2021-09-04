@@ -12,26 +12,28 @@
   margin: 10px 0;
 
   font-weight: 700;
-  font-family: 'JetBrains Mono', monospace;
   font-size: 14px;
+  text-transform: uppercase;
 
-  border: 1px solid var(--base-white);
-  background-color: transparent;
-  color: var(--base-white);
+  border: 2px solid var(--base-white);
+  background-color: (--base-white);
+  color: var(--base-blue);
 
   cursor: pointer;
 
   transition: all 250ms ease;
 
+  box-shadow: 0 5px 15px rgba(255, 255, 255, .4);
+
   &:hover:enabled {
-    background-color: var(--base-white);
-    color: var(--base-blue);
-    box-shadow: 0 5px 15px rgba(255, 255, 255, .4);
+    background-color: transparent;
+    color: var(--base-white);
   }
 
   &:disabled {
     background-color: transparent;
     color: var(--base-gray);
-    border: 1px solid var(--base-gray);
+    border: 2px solid var(--base-gray);
+    box-shadow: none;
   }
 }
