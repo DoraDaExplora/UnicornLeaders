@@ -1,1 +1,2 @@
-export const pendingSelector = (state: any) => state.mainStore.pending;
+export const pendingSelector = (state: any) => state.pending;
+export const resultsSelector = (state: any) => state.results;

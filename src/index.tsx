@@ -2,12 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-import App from './App';
+import { App } from './App';
 
 import configureStore from './Store/store';
 import { initialState } from './Store/reducer';
 
-import './index.css';
+import './indexGlobal.scss';
+import './Styles/Colors.css';
 
 const store = configureStore(initialState);
 

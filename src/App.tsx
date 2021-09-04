@@ -1,26 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useSelector } from 'react-redux';
 
-function App() {
+import { resultsSelector } from './Store/selectors';
+
+import { Search } from './Components/Search';
+import { SearchResults } from './Components/SearchResults';
+
+import s from './App.module.scss';
+
+export const App = () => {
+  const results = useSelector(resultsSelector);
+  console.log('app results: ', results);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={s.App}>
+      <Search />
+      {results && Object.keys(results).length !== 0 ? <SearchResults results={results} /> : null}
     </div>
   );
-}
-
-export default App;
+};
