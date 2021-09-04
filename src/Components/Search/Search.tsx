@@ -1,12 +1,16 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { CSSTransition } from 'react-transition-group';
+
+import { CircularProgress } from '@material-ui/core';
 
 import { pendingSelector } from '../../Store/selectors';
+import { loadResults } from '../../Store/actions';
 
 import { Button } from '../Button';
 
 import s from './Search.module.scss';
-import { loadResults } from '../../Store/actions';
+import a from '../../Styles/Animations.module.scss';
 
 export const Search = () => {
   const dispatch = useDispatch();
@@ -39,7 +43,12 @@ export const Search = () => {
             Найти
           </Button>
         </div>
-        {isLoading && <h2>Ищем поставщиков</h2>}
+        <CSSTransition in={isLoading} timeout={200} mountOnEnter unmountOnExit classNames={{ ...a }}>
+          <div className={s.LoadingContainer}>
+            <h3>Ищем поставщиков...</h3>
+            <CircularProgress classes={{ root: s.LoadingPreloader }} />
+          </div>
+        </CSSTransition>
       </div>
     </div>
   );

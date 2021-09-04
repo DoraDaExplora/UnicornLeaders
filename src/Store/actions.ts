@@ -135,7 +135,7 @@ export const loadResults = (searchData: any) => async (dispatch: any) => {
       let normalizedRes: ResultEntity[] = [];
       normalizedRes = normalizedRes.concat(...Object.values(res));
       dispatch({ type: EActionTypes.LOAD_RESULTS_SUCCESS, payload: normalizedRes });
-    }, 2000);
+    }, 5000);
   } catch (err) {
     console.error(err);
     dispatch({ type: EActionTypes.LOAD_RESULTS_FAILURE, payload: err });
