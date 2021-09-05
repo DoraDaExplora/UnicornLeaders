@@ -76,6 +76,20 @@ export const reducer = (state: IMainStore = initialState, action: any) => {
       };
     }
 
+    case EActionTypes.SEND_MAIL: {
+      return {
+        ...state,
+        mail: payload,
+      };
+    }
+
+    case EActionTypes.SET_SEARCH_QUERY: {
+      return {
+        ...state,
+        searchQuery: payload,
+      };
+    }
+
     default:
       return state;
   }

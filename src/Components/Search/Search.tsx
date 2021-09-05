@@ -7,6 +7,7 @@ import { Select } from '@material-ui/core';
 import { FormControl } from '@material-ui/core';
 import { Input } from '@material-ui/core';
 
+import { EActionTypes } from '../../Store/actionTypes';
 import { pendingSelector, statusSelector } from '../../Store/selectors';
 import { startSearch, fetchTaskStatus, setSearchResults } from '../../Store/actions';
 
@@ -17,13 +18,15 @@ import a from '../../Styles/Animations.module.scss';
 
 const INITIAL_SEARCH_DATA = {
   keywords: [],
+  from_date_ymd: [],
+  to_date_ymd: [],
   region: null, //done
   okpd: '', //done
   status: -1, //done
-  placing: [undefined], //done
-  etp: [-1], //done
+  placing: [], //done
+  etp: [], //done
   min_price: 0, //done
-  max_price: 1, //done
+  max_price: 999999999, //done
   fz: -1, //done
   max_requests: 1,
 };
@@ -92,6 +95,7 @@ export const Search = () => {
     setSearchValue(target.value);
     const normalizedValue = target.value.split(' ');
     handleChangeFilter('keywords', normalizedValue);
+    dispatch({ type: EActionTypes.SET_SEARCH_QUERY, payload: target.value });
   };
 
   const stopInterval = (interval: any) => {
@@ -110,16 +114,21 @@ export const Search = () => {
 
   const handleChangeFilter = (name: string, value: any) => {
     const newSearchData = { ...searchData, [name]: value };
-    console.log(newSearchData);
     setSearchData(newSearchData);
   };
 
+  const handleChangeDate = (whichDate: 'from' | 'to', date: string) => {
+    const formattedDate = date.split('-').map(item => Number(item));
+    const dateName = whichDate === 'from' ? 'from_date_ymd' : 'to_date_ymd';
+
+    handleChangeFilter(dateName, formattedDate);
+  };
+
   React.useEffect(() => {
-    console.log('taskStatus: ', taskStatus);
     if (taskStatus.length) {
-      console.log('task done');
       stopInterval(intervalId);
       dispatch(setSearchResults());
+      setShowFilters(false);
     }
   }, [taskStatus]);
 
@@ -149,6 +158,24 @@ export const Search = () => {
         <CSSTransition in={showFilters} timeout={200} mountOnEnter unmountOnExit classNames={{ ...a }}>
           <div className={s.SearchFilters}>
             <FormControl className={s.formControl}>
+              <InputLabel className={s.SearchFilterLabel}>От какой даты</InputLabel>
+              <Input
+                className={s.SearchFilterInput}
+                classes={{ root: s.SearchInputOverride, underline: s.SearchInputBorderOverride }}
+                value={String(searchData.from_date_ymd.join('-'))}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeDate('from', e.target.value)}
+              />
+            </FormControl>
+            <FormControl className={s.formControl}>
+              <InputLabel className={s.SearchFilterLabel}>До какой даты</InputLabel>
+              <Input
+                className={s.SearchFilterInput}
+                classes={{ root: s.SearchInputOverride, underline: s.SearchInputBorderOverride }}
+                value={String(searchData.to_date_ymd.join('-'))}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeDate('to', e.target.value)}
+              />
+            </FormControl>
+            <FormControl className={s.formControl}>
               <InputLabel className={s.SearchFilterLabel}>Номер региона</InputLabel>
               <Input
                 className={s.SearchFilterInput}
@@ -173,7 +200,10 @@ export const Search = () => {
                 classes={{ root: s.SearchInputOverride, underline: s.SearchInputBorderOverride }}
                 placeholder="Минимальная цена"
                 value={searchData.min_price}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeFilter('min_price', e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleChangeFilter('min_price', Number(e.target.value))
+                }
+                type="number"
               />
             </FormControl>
             <FormControl className={s.formControl}>
@@ -183,7 +213,10 @@ export const Search = () => {
                 classes={{ root: s.SearchInputOverride, underline: s.SearchInputBorderOverride }}
                 placeholder="Максимальная цена"
                 value={searchData.max_price}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeFilter('max_price', e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleChangeFilter('max_price', Number(e.target.value))
+                }
+                type="number"
               />
             </FormControl>
             <FormControl className={s.formControl}>

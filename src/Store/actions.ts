@@ -17,7 +17,6 @@ export const fetchTaskStatus = () => async (dispatch: any, getState: any) => {
   try {
     const taskIds = getState().taskIds;
     const res = await api.getTaskStatus(taskIds);
-    console.log('res: ', res);
 
     if (typeof res !== 'string') {
       if (res.every((item: any) => item.status === 'done')) {
@@ -45,5 +44,14 @@ export const setSearchResults = () => async (dispatch: any, getState: any) => {
   } catch (err) {
     console.error(err);
     dispatch({ type: EActionTypes.LOAD_RESULTS_FAILURE, payload: err });
+  }
+};
+
+export const sendMail = (data: any) => async (dispatch: any) => {
+  try {
+    const res = await api.sendMail(data);
+    dispatch({ type: EActionTypes.SEND_MAIL, payload: res });
+  } catch (err) {
+    console.error(err);
   }
 };
