@@ -28,7 +28,7 @@ const INITIAL_SEARCH_DATA = {
   min_price: 0, //done
   max_price: 999999999, //done
   fz: -1, //done
-  max_requests: 1,
+  max_requests: 10,
 };
 
 // Статус закупки
@@ -203,7 +203,6 @@ export const Search = () => {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleChangeFilter('min_price', Number(e.target.value))
                 }
-                type="number"
               />
             </FormControl>
             <FormControl className={s.formControl}>
@@ -216,7 +215,6 @@ export const Search = () => {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleChangeFilter('max_price', Number(e.target.value))
                 }
-                type="number"
               />
             </FormControl>
             <FormControl className={s.formControl}>

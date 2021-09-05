@@ -21,6 +21,7 @@ export interface TaskStatusEntity {
 
 export interface IMainStore {
   pending: boolean;
+  pendingText: string;
   error: null | Error;
   results: ResultEntity[];
   taskIds: number[];
@@ -29,6 +30,7 @@ export interface IMainStore {
 
 export const initialState: IMainStore = {
   pending: false,
+  pendingText: 'Запускаем поиск...',
   error: null,
   results: [],
   taskIds: [],
