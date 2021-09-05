@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 
 const sendData = (res: AxiosResponse): any => res.data;
 
-axios.defaults.baseURL = 'http://95.181.163.106:80/';
+axios.defaults.baseURL = 'https://unicorn-dev.codes/';
 
 axios.interceptors.response.use(
   response => {
