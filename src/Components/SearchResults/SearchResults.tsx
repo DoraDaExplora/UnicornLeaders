@@ -22,6 +22,8 @@ export const SearchResults = ({ results }: any) => {
     }
   };
 
+  console.log(results);
+
   return (
     <div className={s.SearchResults}>
       {results.map((item: ResultEntity, index: number) => {
@@ -33,7 +35,9 @@ export const SearchResults = ({ results }: any) => {
             </div>
             <div className={s.SearchResultField}>
               <span>Контактное лицо:</span>
-              <h3>{item.contact_persons[0]}</h3>
+              {item?.contact_persons?.map((contact: string) => (
+                <h3>{contact}</h3>
+              ))}
             </div>
             <div className={s.SearchResultField}>
               <span>E-mail:</span>
@@ -46,6 +50,10 @@ export const SearchResults = ({ results }: any) => {
               {item?.phones?.map((phone, index) => (
                 <h3 key={index}>{phone}</h3>
               ))}
+            </div>
+            <div className={s.SearchResultField}>
+              <span>Стартовая цена: </span>
+              <h3>{item.average_capitalization}</h3>
             </div>
             <div className={s.SearchResultField}>
               <span>Репутация: </span>

@@ -4,8 +4,8 @@ import { CSSTransition } from 'react-transition-group';
 
 import { CircularProgress } from '@material-ui/core';
 
-import { pendingSelector } from '../../Store/selectors';
-import { loadResults } from '../../Store/actions';
+import { pendingSelector, statusSelector } from '../../Store/selectors';
+import { startSearch, fetchTaskStatus, setSearchResults } from '../../Store/actions';
 
 import { Button } from '../Button';
 
@@ -15,7 +15,9 @@ import a from '../../Styles/Animations.module.scss';
 export const Search = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector(pendingSelector);
+  const taskStatus = useSelector(statusSelector);
   const [searchValue, setSearchValue] = React.useState<string>('');
+  const [intervalId, setIntervalId] = React.useState<any>();
 
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { target } = e;
@@ -23,10 +25,32 @@ export const Search = () => {
     setSearchValue(target.value);
   };
 
-  const handleSearch = () => {
-    const searchData = {};
-    dispatch(loadResults(searchData));
+  const stopInterval = (interval: any) => {
+    clearInterval(interval);
   };
+
+  const handleSearch = () => {
+    const searchData = {
+      keywords: [searchValue],
+      max_requests: 1,
+    };
+    dispatch(startSearch(searchData));
+
+    setIntervalId(
+      setInterval(() => {
+        dispatch(fetchTaskStatus());
+      }, 2000),
+    );
+  };
+
+  React.useEffect(() => {
+    console.log('taskStatus: ', taskStatus);
+    if (taskStatus.length) {
+      console.log('task done');
+      stopInterval(intervalId);
+      dispatch(setSearchResults());
+    }
+  }, [taskStatus]);
 
   return (
     <div className={s.Search}>
