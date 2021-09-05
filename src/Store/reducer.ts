@@ -10,20 +10,29 @@ export interface ResultEntity {
 }
 
 export interface ResultResponse {
-  1?: ResultEntity[];
-  2?: ResultEntity[];
+  data: any;
+  [key: number]: ResultEntity[];
+}
+
+export interface TaskStatusEntity {
+  taskId: number;
+  taskStatus: string;
 }
 
 export interface IMainStore {
   pending: boolean;
   error: null | Error;
   results: ResultEntity[];
+  taskIds: number[];
+  tasksStatus: TaskStatusEntity[];
 }
 
 export const initialState: IMainStore = {
   pending: false,
   error: null,
   results: [],
+  taskIds: [],
+  tasksStatus: [],
 };
 
 export const reducer = (state: IMainStore = initialState, action: any) => {
@@ -50,6 +59,34 @@ export const reducer = (state: IMainStore = initialState, action: any) => {
         ...state,
         pending: false,
         error: payload,
+      };
+    }
+
+    case EActionTypes.SET_TASK_IDS: {
+      return {
+        ...state,
+        taskIds: payload,
+      };
+    }
+
+    case EActionTypes.SET_TASK_STATUS: {
+      return {
+        ...state,
+        tasksStatus: payload,
+      };
+    }
+
+    case EActionTypes.SEND_MAIL: {
+      return {
+        ...state,
+        mail: payload,
+      };
+    }
+
+    case EActionTypes.SET_SEARCH_QUERY: {
+      return {
+        ...state,
+        searchQuery: payload,
       };
     }
 
