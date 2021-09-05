@@ -8,7 +8,7 @@ import { FormControl } from '@material-ui/core';
 import { Input } from '@material-ui/core';
 
 import { EActionTypes } from '../../Store/actionTypes';
-import { pendingSelector, statusSelector } from '../../Store/selectors';
+import { pendingSelector, pendingTextSelector, statusSelector } from '../../Store/selectors';
 import { startSearch, fetchTaskStatus, setSearchResults } from '../../Store/actions';
 
 import { Button } from '../Button';
@@ -84,6 +84,7 @@ export const Search = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector(pendingSelector);
   const taskStatus = useSelector(statusSelector);
+  const pendingText = useSelector(pendingTextSelector);
   const [searchValue, setSearchValue] = React.useState<string>('');
   const [intervalId, setIntervalId] = React.useState<any>();
   const [searchData, setSearchData] = React.useState<any>(INITIAL_SEARCH_DATA);
@@ -100,6 +101,7 @@ export const Search = () => {
 
   const stopInterval = (interval: any) => {
     clearInterval(interval);
+    dispatch({ type: EActionTypes.SET_PROGRESS_TEXT, payload: 'Запускаем поиск...' });
   };
 
   const handleSearch = () => {
@@ -279,7 +281,7 @@ export const Search = () => {
         </CSSTransition>
         <CSSTransition in={isLoading} timeout={200} mountOnEnter unmountOnExit classNames={{ ...a }}>
           <div className={s.LoadingContainer}>
-            <h3>Ищем поставщиков...</h3>
+            <h3>{pendingText}</h3>
             <CircularProgress classes={{ root: s.LoadingPreloader }} />
           </div>
         </CSSTransition>

@@ -92,6 +92,13 @@ export const reducer = (state: IMainStore = initialState, action: any) => {
       };
     }
 
+    case EActionTypes.SET_PROGRESS_TEXT: {
+      return {
+        ...state,
+        pendingText: payload,
+      };
+    }
+
     default:
       return state;
   }
