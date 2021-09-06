@@ -1,46 +1,99 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#### Реализованная функциональность
 
-## Available Scripts
+-	Скраппинг интернета
+-	Генерация писем на основе шаблона
+-	Парсинг реестра gov.ru, проверка добросовестности поставщика
+-	Веб морда
 
-In the project directory, you can run:
+#### Особенность проекта в следующем:
 
-### `yarn start`
+-   Автоматическая, конфигурируемая по шаблонам рассылка идеально подходящим поставщикам
+-   Поточный поиск. Поддержка как горячих запросов, так и холодного мониторинга
+-   Генерация сложных запросов с ОКПД2, оцентой добросовестности и прочим на базе пары слов
+-   Оценка цены, опыта, качества поставщика на основе его истории
+-   Безопасность
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+#### Основной стек технологий:
+- Фронтенд:
+  -   HTML, CSS, TypeScript.
+  -   LESS, SCSS, PostCSS.
+  -   Webpack
+  -   React
+  -   Redux
+  - Redux-thunk
+  - Axios
+- Бэкенд
+  - Golang
+- Общее
+-   	Git
 
-### `yarn test`
+#### Демо
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Демо сервиса доступно по адресу: [https://unicorn-leaders.vercel.app](https://unicorn-leaders.vercel.app)
 
-### `yarn build`
+## СРЕДА ЗАПУСКА
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1.  Развертывание сервиса производится на Unix-based системах (фронтенд запускался на MacOS);
+2.	Для демо пакета под дистрибутивы не собрано, нужно собирать бинарь, любой Linux дистрибутив, на который встает go, либо MacOS.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## УСТАНОВКА
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Установка фронтенда
 
-### `yarn eject`
+Для установки нужен пакет `yarn`.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Выполните
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+git clone https://github.com/un1c0rn-dev/digital_breakthrough_2021
+cd digital_breakthrough_2021/frontend
+yarn install
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Установка бэкенда
 
-## Learn More
+cd ```project_dir``` && go build .
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Запуск фронтенда
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Выполните
+
+```
+cd digital_breakthrough_2021/frontend
+yarn start
+```
+
+### Запуск бэкенда
+
+```
+(cd <project_dir> && echo "[Unit]
+Description=Unicorn dev webscrapper
+After=network.target
+
+[Service]
+ExecStart=$(pwd)/unicorn.dev.web-scrap -api-keys $(pwd)/Configs/api_keys.json -port 443 -use-tls -tls-key $(pwd)/Configs/server.key -tls-crt $(pwd)/Configs/server.crt
+ExecReload=$(pwd)/unicorn.dev.web-scrap -api-keys $(pwd)/Configs/api_keys.json -port 443 -use-tls -tls-key $(pwd)/Configs/server.key -tls-crt $(pwd)/Configs/server.crt
+KillMode=process
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+" > /etc/systemd/system/unicorn-scap.service)
+
+systemctl enable unicorn-scap.service 
+systemctl start unicorn-scap.service 
+```
+Приветствуется запуск в докере
+
+### Установка зависимостей проекта
+
+sudo apt install golang
+
+## РАЗРАБОТЧИКИ
+
+#### Тимур Черных backend [https://t.me/j35uScHr1St](https://t.me/j35uScHr1St)
+#### Стефан Тюрин backend [https://t.me/Rumb0](https://t.me/Rumb0)
+#### Дмитрий Никулин frontend [https://t.me/LaExplorad0ra](https://t.me/LaExplorad0ra)
